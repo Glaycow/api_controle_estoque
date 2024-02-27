@@ -44,17 +44,17 @@ namespace ControleEstoque.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    CategoriaId = table.Column<Guid>(type: "TEXT", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categorias_Fornecedores_CategoriaId",
-                        column: x => x.CategoriaId,
+                        name: "FK_Categorias_Fornecedores_Id",
+                        column: x => x.Id,
                         principalTable: "Fornecedores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,11 +94,6 @@ namespace ControleEstoque.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Categorias_CategoriaId",
-                table: "Categorias",
-                column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produtos_CategoriaId",

@@ -7,4 +7,6 @@ public class Categoria : ClasseBase
 {
     [Required(ErrorMessage = "{0} deve ser obrigatório")]
     public string Nome { get; set; }
+
+    public virtual Fornecedor Fornecedor { get; set; }
 }

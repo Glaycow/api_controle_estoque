@@ -20,10 +20,6 @@ namespace ControleEstoque.Infra.Migrations
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Categoria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CategoriaId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataCadastro")
@@ -34,8 +30,6 @@ namespace ControleEstoque.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Categorias");
                 });
@@ -126,9 +120,13 @@ namespace ControleEstoque.Infra.Migrations
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Categoria", b =>
                 {
-                    b.HasOne("ControleEstoque.Dominio.Classes.Fornecedor", null)
+                    b.HasOne("ControleEstoque.Dominio.Classes.Fornecedor", "Fornecedor")
                         .WithMany("Categoria")
-                        .HasForeignKey("CategoriaId");
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>

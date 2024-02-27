@@ -14,10 +14,8 @@ public class Produto : ClasseBase
     public int Quantidade { get; set; }
     [Required(ErrorMessage = "{0} deve ser obrigatório")]
     public TipoQuantidade TipoQuantidade { get; set; }
-    [ForeignKey("CategoriaId")] 
     [Required(ErrorMessage = "{0} deve ser obrigatório")]
     public Categoria Categoria { get; set; }
-    [ForeignKey("FornecedorId")]
     [Required(ErrorMessage = "{0} deve ser obrigatório")]
     public Fornecedor Fornecedor { get; set; }
     [Required(ErrorMessage = "{0} deve ser obrigatório")]
