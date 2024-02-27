@@ -19,9 +19,9 @@ public static class DependencyInjectionConfig
             l.AddDebug();
             l.AddConsole();
         });
-
+        
         builder.Services.AddScoped<ControleEstoqueDbContext>();
-        builder.Services.AddScoped(typeof(IEntityDataService<>), typeof(EntityDataService<>));
+        
         // repositorio
         builder.Services.AddScoped<ITipoQuantidadeRepositorio, TipoQuantidadeRepositorio>();
         builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();

@@ -1,5 +1,6 @@
 ﻿using ControleEstoque.Dominio.Interfaces;
 using ControleEstoque.Dominio.Interfaces.Categoria;
+using ControleEstoque.Infra.DbContexts;
 using ControleEstoque.Infra.EFCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,19 +23,5 @@ public class CategoriaServico(ICategoriaRepositorio categoriaRepositorio) : ICat
     public async Task ApagarCategoriaAsync(Guid id)
     {
         await _categoriaRepositorio.Delete(id);
-    }
-}
-
-public class CategoriaRepositorio(DbContext dbContext) : EntityDataService<Dominio.Classes.Categoria>(dbContext), ICategoriaRepositorio
-{
-    
-    public async Task<IEnumerable<Dominio.Classes.Categoria>> ObterListaCategoriaAsync()
-    {
-        return await GetAll();
-    }
-
-    public async Task<Dominio.Classes.Categoria> ObterListaCategoriaPorIdAsync(Guid id)
-    {
-        return await GetById(id);
     }
 }

@@ -12,7 +12,7 @@ public static class ApiBehaviorOptionsConfig
     /// </summary>
     public static WebApplicationBuilder AddApplicationBuilder(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+        // builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
         return builder;
     }
