@@ -1,27 +1,27 @@
-using ControleEstoque.Infra.DbContexts;
-using Microsoft.EntityFrameworkCore;
+using Asp.Versioning.ApiExplorer;
+using ControleEstoque.Api.Configuracao;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<ControleEstoqueDbContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
-});
+builder
+    .AddSwaggerConfig()
+    .AddApiConfig()
+    .AddDbContextConfig();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.AddCustomErrorConfig();
+
+var providerSwagger = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(o =>
+    {
+        foreach (var description in providerSwagger.ApiVersionDescriptions.OrderBy(t => t.GroupName))
+            o.SwaggerEndpoint(
+                $"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+    });
 }
 
 app.UseHttpsRedirection();
