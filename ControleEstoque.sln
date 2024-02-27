@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Api", "1 - Api", "{D3158ACB-9D05-4E2B-8629-6CB7A2E1B69D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - dominio", "2 - dominio", "{C698E78F-A48A-4F68-9389-BBD502832C47}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Dominio", "2 - Dominio", "{C698E78F-A48A-4F68-9389-BBD502832C47}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Aplicacao", "3 - Aplicacao", "{1A968F11-66FB-4CE7-89E3-4CE7E8700ED3}"
 EndProject
@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleEstoque.Aplicacao",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Api", "src\ControleEstoque.Api\ControleEstoque.Api.csproj", "{B42CB374-53ED-4D6B-861B-A523D1592D3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Dominio", "src\ControleEstoque.Dominio\ControleEstoque.Dominio.csproj", "{B5C79171-C77E-4A1C-ACFD-7D01B7761362}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Infra", "src\ControleEstoque.Infra\ControleEstoque.Infra.csproj", "{D73DF5DA-1703-4C41-BE31-0C46B285226D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Dominio", "src\ControleEstoque.Dominio\ControleEstoque.Dominio.csproj", "{9F22F2FE-2B68-4512-917C-B6D008CD0F31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,14 +41,14 @@ Global
 		{B42CB374-53ED-4D6B-861B-A523D1592D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B42CB374-53ED-4D6B-861B-A523D1592D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B42CB374-53ED-4D6B-861B-A523D1592D3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5C79171-C77E-4A1C-ACFD-7D01B7761362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5C79171-C77E-4A1C-ACFD-7D01B7761362}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5C79171-C77E-4A1C-ACFD-7D01B7761362}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5C79171-C77E-4A1C-ACFD-7D01B7761362}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F22F2FE-2B68-4512-917C-B6D008CD0F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F22F2FE-2B68-4512-917C-B6D008CD0F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F22F2FE-2B68-4512-917C-B6D008CD0F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F22F2FE-2B68-4512-917C-B6D008CD0F31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,8 +57,8 @@ Global
 		{D23027AC-F972-4850-9D0C-430046AB54FF} = {9318EDB9-F0FC-4960-8DB5-846B319519D4}
 		{6706639B-FCE2-4852-A56C-890342EE6E7F} = {1A968F11-66FB-4CE7-89E3-4CE7E8700ED3}
 		{B42CB374-53ED-4D6B-861B-A523D1592D3C} = {D3158ACB-9D05-4E2B-8629-6CB7A2E1B69D}
-		{B5C79171-C77E-4A1C-ACFD-7D01B7761362} = {C698E78F-A48A-4F68-9389-BBD502832C47}
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D} = {D0992084-FAD4-4DCA-8136-D5C3FD3980B3}
+		{9F22F2FE-2B68-4512-917C-B6D008CD0F31} = {C698E78F-A48A-4F68-9389-BBD502832C47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B5088E8-F31F-4949-A9B1-A6D9397149C4}
