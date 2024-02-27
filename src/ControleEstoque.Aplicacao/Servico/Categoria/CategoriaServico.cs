@@ -1,4 +1,5 @@
 ﻿using ControleEstoque.Dominio.Interfaces;
+using ControleEstoque.Dominio.Interfaces.Categoria;
 using ControleEstoque.Infra.EFCore;
 using Microsoft.EntityFrameworkCore;
 
