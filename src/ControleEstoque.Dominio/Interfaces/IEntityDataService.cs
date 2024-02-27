@@ -1,4 +1,4 @@
-﻿namespace ControleEstoque.Infra.EFCore;
+﻿namespace ControleEstoque.Dominio.Interfaces;
 
 public interface IEntityDataService<TEntity> where TEntity : class, new () 
 {
@@ -7,4 +7,5 @@ public interface IEntityDataService<TEntity> where TEntity : class, new ()
     Task<TEntity> Add(TEntity entity);
     Task<TEntity> Update(TEntity entity);
     Task Delete(TEntity entity);
+    Task Delete(Guid id);
 }

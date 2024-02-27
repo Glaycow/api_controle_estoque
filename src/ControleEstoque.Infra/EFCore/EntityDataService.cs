@@ -1,3 +1,4 @@
+using ControleEstoque.Dominio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControleEstoque.Infra.EFCore;
@@ -35,5 +36,11 @@ public abstract class EntityDataService<TEntity>(DbContext dbContext) : IEntityD
     {
         _dbContext.Remove(entity);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public virtual async Task Delete(Guid id)
+    {
+        var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+        if (entity != null) await Delete(entity);
     }
 }
