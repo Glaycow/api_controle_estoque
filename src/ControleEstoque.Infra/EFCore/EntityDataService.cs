@@ -43,4 +43,9 @@ public abstract class EntityDataService<TEntity>(DbContext dbContext) : IEntityD
         var entity = await _dbContext.Set<TEntity>().FindAsync(id);
         if (entity != null) await Delete(entity);
     }
+
+    public void Dispose()
+    {
+       _dbContext.Dispose();
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ControleEstoque.Dominio.Interfaces;
 
-public interface IEntityDataService<TEntity> where TEntity : class, new () 
+public interface IEntityDataService<TEntity> :IDisposable where TEntity : class, new () 
 {
     Task<TEntity> GetById<TId>(TId id);
     Task<IList<TEntity>> GetAll();
