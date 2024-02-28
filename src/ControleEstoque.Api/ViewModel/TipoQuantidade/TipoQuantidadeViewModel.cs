@@ -4,8 +4,8 @@ namespace ControleEstoque.Api.ViewModel.TipoQuantidade;
 
 public class TipoQuantidadeViewModel
 {
-    [Required(ErrorMessage = "{0} deve ser obrigatório")]
+    [Required(ErrorMessage = "{0} deve ser informado")]
     public string Descricao { get; set; }
-    [Required(ErrorMessage = "{0} deve ser obrigatório")]
+    [Required(ErrorMessage = "{0} deve ser informado")]
     public int Quantidade { get; set; }
 }

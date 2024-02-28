@@ -34,6 +34,40 @@ namespace ControleEstoque.Infra.Migrations
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Estoque", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataCompra")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProdutoId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("SaldoQuantidade")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TipoCadastro")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("Estoque");
+                });
+
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Fornecedor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -71,19 +105,7 @@ namespace ControleEstoque.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("SaldoQuantidade")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TipoCadastro")
-                        .HasColumnType("INTEGER");
-
                     b.Property<Guid>("TipoQuantidadeId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Valor")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -129,6 +151,17 @@ namespace ControleEstoque.Infra.Migrations
                     b.Navigation("Fornecedor");
                 });
 
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Estoque", b =>
+                {
+                    b.HasOne("ControleEstoque.Dominio.Classes.Produto", "Produto")
+                        .WithMany("Estoque")
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
+                });
+
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>
                 {
                     b.HasOne("ControleEstoque.Dominio.Classes.Categoria", "Categoria")
@@ -159,6 +192,11 @@ namespace ControleEstoque.Infra.Migrations
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Fornecedor", b =>
                 {
                     b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>
+                {
+                    b.Navigation("Estoque");
                 });
 #pragma warning restore 612, 618
         }
