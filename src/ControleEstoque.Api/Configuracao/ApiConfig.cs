@@ -1,6 +1,9 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using ControleEstoque.Api.CustomException;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace ControleEstoque.Api.Configuracao;
 
@@ -29,9 +32,10 @@ public static class ApiConfig
                 // if you need a specific response type.
                 options.Filters.Add(new ProducesResponseTypeAttribute(typeof(ValidationException), StatusCodes.Status500InternalServerError));
             })
-            .AddJsonOptions(options =>
+            .AddNewtonsoftJson(options =>
             {
-                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             })
             .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
 

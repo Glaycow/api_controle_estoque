@@ -16,7 +16,19 @@ public class AutoMapperConfig : Profile
         CreateMap<Categoria, CadastroCategoriaViewModel>().ReverseMap();
         CreateMap<Categoria, AlterarCategoriaViewModel>().ReverseMap();
         
-        CreateMap<Fornecedor, CadastroFornecedorViewModel>().ReverseMap();
-        CreateMap<Fornecedor, AlterarFornecedorViewModel>().ReverseMap();
+        CreateMap<CadastroFornecedorViewModel, Fornecedor>()
+            .ForMember(dest => dest.FornecedorCategoria, opt => 
+                opt.MapFrom(src => 
+                    src.Categoria.Select(categoriaId => new FornecedorCategoria
+                    {
+                        Categoria = new Categoria {Id = categoriaId}
+                    }))).ReverseMap();
+        CreateMap<AlterarFornecedorViewModel, Fornecedor>()
+            .ForMember(dest => dest.FornecedorCategoria, opt => 
+                opt.MapFrom(src => 
+                    src.Categoria.Select(categoriaId => new FornecedorCategoria
+                    {
+                        Categoria = new Categoria {Id = categoriaId}
+                    }))).ReverseMap();
     }
 }

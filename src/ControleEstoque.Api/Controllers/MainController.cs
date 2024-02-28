@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ControleEstoque.Api.CustomException;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ControleEstoque.Api.Controllers;
@@ -8,8 +9,13 @@ namespace ControleEstoque.Api.Controllers;
 public class MainController : ControllerBase
 {
 
-    protected static IEnumerable<string> GerarErrosValidacao(ModelStateDictionary modelState)
+    protected static ErrorResponse GerarErrosValidacao(ModelStateDictionary modelState)
     {
-        return (from modelStateEntry in modelState.Values from error in modelStateEntry.Errors select error.ErrorMessage).ToList();
+        var errorResponse = new ErrorResponse("400", "");
+        foreach (var item in modelState.Values)
+        {
+            errorResponse.AddDetail(item.Errors[0].ErrorMessage);
+        }
+        return errorResponse;
     }
 }

@@ -34,7 +34,7 @@ public class CategoriaController(IMapper mapper, ICategoriaRepositorio categoria
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(Guid id)
     {
-        var categoria = await _categoriaRepositorio.ObterListaCategoriaPorIdAsync(id);
+        var categoria = await _categoriaRepositorio.ObterCategoriaPorIdAsync(id);
         return Ok(categoria);
     }
 
@@ -73,7 +73,7 @@ public class CategoriaController(IMapper mapper, ICategoriaRepositorio categoria
     }
 
     [HttpDelete("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id)

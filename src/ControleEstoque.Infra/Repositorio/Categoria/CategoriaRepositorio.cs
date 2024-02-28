@@ -11,7 +11,7 @@ public class CategoriaRepositorio(ControleEstoqueDbContext dbContext) : EntityDa
         return await GetAll();
     }
 
-    public async Task<Dominio.Classes.Categoria> ObterListaCategoriaPorIdAsync(Guid id)
+    public async Task<Dominio.Classes.Categoria?> ObterCategoriaPorIdAsync(Guid id)
     {
         return await GetById(id);
     }

@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(o =>
     {
-        o.DefaultModelsExpandDepth(-1);
+        // o.DefaultModelsExpandDepth(-1);
         foreach (var description in providerSwagger.ApiVersionDescriptions.OrderBy(t => t.GroupName))
             o.SwaggerEndpoint(
                 $"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());

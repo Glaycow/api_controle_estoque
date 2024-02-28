@@ -2,7 +2,7 @@
 
 namespace ControleEstoque.Api.ViewModel.Fornecedor;
 
-public class CadastroFornecedorViewModel
+public record CadastroFornecedorViewModel
 {
     [Required(ErrorMessage = "{0} deve ser informado")]
     public string Nome { get; set; }

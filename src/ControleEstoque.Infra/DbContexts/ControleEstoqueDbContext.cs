@@ -8,13 +8,11 @@ public class ControleEstoqueDbContext(DbContextOptions<ControleEstoqueDbContext>
     public virtual DbSet<TipoQuantidade> TipoQuantidades { get; set; }
     public virtual DbSet<Categoria> Categorias { get; set; }
     public virtual DbSet<Fornecedor> Fornecedores { get; set; }
+    public virtual DbSet<FornecedorCategoria> FornecedorCategorias { get; set; }
     public virtual DbSet<Produto> Produtos { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Fornecedor>()
-            .HasMany(f => f.Categoria)
-            .WithOne(c => c.Fornecedor)
-            .HasForeignKey(c => c.Id);
+        
     } 
 }

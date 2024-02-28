@@ -12,7 +12,15 @@ public class CategoriaServico(ICategoriaRepositorio categoriaRepositorio) : ICat
 
     public async Task<Dominio.Classes.Categoria> AdicionarCategoriaAsync(Dominio.Classes.Categoria categoria)
     {
-        return await _categoriaRepositorio.Add(categoria);
+        try
+        {
+            return await _categoriaRepositorio.Add(categoria);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<Dominio.Classes.Categoria> AlterarCategoriaAsync(Dominio.Classes.Categoria categoria)
