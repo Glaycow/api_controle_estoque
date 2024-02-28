@@ -3,6 +3,7 @@ using AutoMapper;
 using ControleEstoque.Api.CustomException;
 using ControleEstoque.Api.ViewModel.TipoQuantidade;
 using ControleEstoque.Dominio.Classes;
+using ControleEstoque.Dominio.Enum;
 using ControleEstoque.Dominio.Interfaces.TipoQuantidade;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,9 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     private readonly IMapper _mapper = mapper;
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<TipoLancamento>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
         var buscarListaTipoQuantidade = await _tipoQuantidadeRepositorio.ObterListaTipoQuantidadeAsync();
@@ -25,6 +29,9 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     }
 
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(Guid id)
     {
         var buscarTipoQuantidade = await _tipoQuantidadeRepositorio.ObterTipoQuantidadePorIdAsync(id);
@@ -32,6 +39,9 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] TipoQuantidadeViewModel tipoQuantidade)
     {
         var salvarTipoQuantidade = await _tipoQuantidadeServico.CadastrarTipoQuantidadeAsync(_mapper.Map<TipoQuantidade>(tipoQuantidade));
@@ -39,6 +49,9 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     }
 
     [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Put(Guid id, [FromBody] TipoQuantidadeViewModel tipoQuantidade)
     {
         var atualizarTipoQuantidade = await _tipoQuantidadeServico.AlterarQuantidadeAsync(_mapper.Map<TipoQuantidade>(tipoQuantidade));
@@ -46,6 +59,9 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     }
 
     [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ValidationException), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _tipoQuantidadeServico.ApagarTipoQuantidadeAsync(id);

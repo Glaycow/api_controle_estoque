@@ -27,7 +27,7 @@ public static class ApiConfig
                 options.Filters.Add(new ConsumesAttribute("application/json"));
 
                 // if you need a specific response type.
-                options.Filters.Add(new ProducesResponseTypeAttribute(typeof(AppException), StatusCodes.Status500InternalServerError));
+                options.Filters.Add(new ProducesResponseTypeAttribute(typeof(ValidationException), StatusCodes.Status500InternalServerError));
             })
             .AddJsonOptions(options =>
             {
