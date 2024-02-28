@@ -1,5 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using ControleEstoque.Dominio.Base;
 
 namespace ControleEstoque.Dominio.Classes;
@@ -9,10 +8,10 @@ public class Produto : ClasseBase
     [Required(ErrorMessage = "{0} deve ser informado")]
     public string Nome { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public TipoQuantidade TipoQuantidade { get; set; }
+    public Guid TipoQuantidadeId { get; set; }
+    public virtual TipoQuantidade TipoQuantidade { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public Categoria Categoria { get; set; }
-    [Required(ErrorMessage = "{0} deve ser informado")]
-    public Fornecedor Fornecedor { get; set; }
+    public Guid FornecedorId { get; set; }
+    public virtual Fornecedor Fornecedor { get; set; }
     public List<Estoque> Estoque { get; set; }
 }

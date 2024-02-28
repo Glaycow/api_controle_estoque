@@ -2,7 +2,7 @@
 
 public interface ICategoriaServico
 {
-    Task<Classes.Categoria> AdicionarCategoriaAsync(Classes.Categoria categoria);
-    Task<Classes.Categoria> AlterarCategoriaAsync(Classes.Categoria categoria);
+    Task<Classes.TipoProduto> AdicionarCategoriaAsync(Classes.TipoProduto tipoProduto);
+    Task<Classes.TipoProduto> AlterarCategoriaAsync(Classes.TipoProduto tipoProduto);
     Task ApagarCategoriaAsync(Guid id);
 }

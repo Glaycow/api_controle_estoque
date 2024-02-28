@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using ControleEstoque.Dominio.Base;
 
 namespace ControleEstoque.Dominio.Classes;

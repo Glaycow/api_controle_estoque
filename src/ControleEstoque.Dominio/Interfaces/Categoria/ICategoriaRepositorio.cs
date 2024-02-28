@@ -1,8 +1,8 @@
 ﻿namespace ControleEstoque.Dominio.Interfaces.Categoria;
 
-public interface ICategoriaRepositorio : IEntityDataService<Classes.Categoria>
+public interface ICategoriaRepositorio : IEntityDataService<Classes.TipoProduto>
 {
-    Task<IEnumerable<Classes.Categoria>> ObterListaCategoriaAsync();
-    Task<Classes.Categoria?> ObterCategoriaPorIdAsync(Guid id);
+    Task<IEnumerable<Classes.TipoProduto>> ObterListaCategoriaAsync();
+    Task<Classes.TipoProduto?> ObterCategoriaPorIdAsync(Guid id);
 }
 
