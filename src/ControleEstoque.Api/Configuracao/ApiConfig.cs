@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using ControleEstoque.Api.CustomException;
+﻿using ControleEstoque.Api.CustomException;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
