@@ -100,7 +100,8 @@ namespace ControleEstoque.Infra.Migrations
                     SaldoQuantidade = table.Column<decimal>(type: "TEXT", nullable: false),
                     Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
                     TipoCadastro = table.Column<int>(type: "INTEGER", nullable: false),
-                    DataCompra = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DataEntrada = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DataSaida = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ProdutoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

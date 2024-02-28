@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ControleEstoque.Aplicacao\ControleEstoque.Aplicacao.csproj" />
     <ProjectReference Include="..\ControleEstoque.Infra\ControleEstoque.Infra.csproj" />
+    <ProjectReference Include="..\ControleEstoque.Mensagens\ControleEstoque.Mensagens.csproj" />
   </ItemGroup>
 
 </Project>

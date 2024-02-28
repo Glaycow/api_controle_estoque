@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using ControleEstoque.Dominio.Base;
 using ControleEstoque.Dominio.Enum;
 
@@ -16,7 +15,7 @@ public class Estoque : ClasseBase
     public int Quantidade { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public TipoLancamento TipoCadastro { get; set; }
-    [Required(ErrorMessage = "{0} deve ser informado")]
-    public DateTime DataCompra { get; set; }
+    public DateTime DataEntrada { get; set; }
+    public DateTime DataSaida { get; set; }
     public Produto Produto { get; set; }
 }

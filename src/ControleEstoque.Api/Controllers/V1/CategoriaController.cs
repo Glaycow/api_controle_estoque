@@ -1,65 +1,65 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
 using ControleEstoque.Api.CustomException;
-using ControleEstoque.Api.ViewModel.TipoQuantidade;
+using ControleEstoque.Api.ViewModel.Categoria;
 using ControleEstoque.Dominio.Classes;
-using ControleEstoque.Dominio.Enum;
-using ControleEstoque.Dominio.Interfaces.TipoQuantidade;
+using ControleEstoque.Dominio.Interfaces.Categoria;
 using ControleEstoque.Mensagens;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleEstoque.Api.Controllers.V1;
 
 [ApiVersion(1.0)]
-[ApiExplorerSettings(GroupName = "TipoQuantidade")]
-public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeRepositorio, ITipoQuantidadeServico tipoQuantidadeServico, IMapper mapper)
+[ApiExplorerSettings(GroupName = "Categoria")]
+public class CategoriaController(IMapper mapper, ICategoriaRepositorio categoriaRepositorio, ICategoriaServico categoriaServico)
     : MainController
 {
-    private readonly ITipoQuantidadeRepositorio _tipoQuantidadeRepositorio = tipoQuantidadeRepositorio;
-    private readonly ITipoQuantidadeServico _tipoQuantidadeServico = tipoQuantidadeServico;
     private readonly IMapper _mapper = mapper;
+    private readonly ICategoriaRepositorio _categoriaRepositorio = categoriaRepositorio;
+    private readonly ICategoriaServico _categoriaServico = categoriaServico;
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<TipoLancamento>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<Categoria>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
-        var buscarListaTipoQuantidade = await _tipoQuantidadeRepositorio.ObterListaTipoQuantidadeAsync();
-        return Ok(buscarListaTipoQuantidade);
+        var categorias = await _categoriaRepositorio.ObterListaCategoriaAsync();
+        return Ok(categorias);
     }
 
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(Guid id)
     {
-        var buscarTipoQuantidade = await _tipoQuantidadeRepositorio.ObterTipoQuantidadePorIdAsync(id);
-        return Ok(buscarTipoQuantidade); 
+        var categoria = await _categoriaRepositorio.ObterListaCategoriaPorIdAsync(id);
+        return Ok(categoria);
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Categoria), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post([FromBody] CadastroTipoQuantidadeViewModel cadastroTipoQuantidade)
+    public async Task<IActionResult> Post([FromBody] CadastroCategoriaViewModel categoria)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(GerarErrosValidacao(ModelState));
         }
-        var salvarTipoQuantidade = await _tipoQuantidadeServico.CadastrarTipoQuantidadeAsync(_mapper.Map<TipoQuantidade>(cadastroTipoQuantidade));
-        return CreatedAtAction(nameof(Get), new { id = salvarTipoQuantidade.Id }, salvarTipoQuantidade); 
+        
+        var categoriaCriada = await _categoriaServico.AdicionarCategoriaAsync(_mapper.Map<Categoria>(categoria));
+        return CreatedAtAction(nameof(Get), new { id = categoriaCriada.Id }, categoriaCriada);
     }
 
     [HttpPut("{id:guid}")]
-    [ProducesResponseType(typeof(TipoQuantidade), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Put(Guid id, [FromBody] AlterarTipoQuantidadeViewModel alterarTipoQuantidade)
+    public async Task<IActionResult> Put(Guid id, [FromBody] AlterarCategoriaViewModel categoria)
     {
-        if (id != alterarTipoQuantidade.Id)
+        if (id != categoria.Id)
         {
             ModelState.AddModelError("Id", MensagensValidacao.IdInvalido);
             return BadRequest(GerarErrosValidacao(ModelState));
@@ -68,8 +68,8 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
         {
             return BadRequest(GerarErrosValidacao(ModelState));
         }
-        var atualizarTipoQuantidade = await _tipoQuantidadeServico.AlterarQuantidadeAsync(_mapper.Map<TipoQuantidade>(alterarTipoQuantidade));
-        return Ok(atualizarTipoQuantidade);
+        var categoriaAtualizada = await _categoriaServico.AlterarCategoriaAsync(_mapper.Map<Categoria>(categoria));
+        return Ok(categoriaAtualizada);
     }
 
     [HttpDelete("{id:guid}")]
@@ -78,7 +78,7 @@ public class TipoQuantidadeController(ITipoQuantidadeRepositorio tipoQuantidadeR
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _tipoQuantidadeServico.ApagarTipoQuantidadeAsync(id);
-        return Ok(); 
+        await _categoriaServico.ApagarCategoriaAsync(id);
+        return Ok();
     }
 }

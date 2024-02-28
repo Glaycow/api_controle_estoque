@@ -7,6 +7,5 @@ public class Categoria : ClasseBase
 {
     [Required(ErrorMessage = "{0} deve ser informado")]
     public string Nome { get; set; }
-
     public virtual Fornecedor Fornecedor { get; set; }
 }

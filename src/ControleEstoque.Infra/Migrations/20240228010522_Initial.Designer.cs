@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleEstoque.Infra.Migrations
 {
     [DbContext(typeof(ControleEstoqueDbContext))]
-    [Migration("20240228002552_Initial")]
+    [Migration("20240228010522_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,7 +46,10 @@ namespace ControleEstoque.Infra.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DataCompra")
+                    b.Property<DateTime>("DataEntrada")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataSaida")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProdutoId")

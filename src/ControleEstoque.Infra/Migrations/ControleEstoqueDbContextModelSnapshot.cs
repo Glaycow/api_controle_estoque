@@ -43,7 +43,10 @@ namespace ControleEstoque.Infra.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DataCompra")
+                    b.Property<DateTime>("DataEntrada")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataSaida")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProdutoId")
