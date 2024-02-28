@@ -6,5 +6,5 @@ public interface IFornecedorRepositorio : IEntityDataService<Classes.Fornecedor>
 {
     Task<List<FornecedorViewModel>> ObterListaFornecedorAsync();
     Task<FornecedorViewModel> ObterFornecedorPorIdAsync(Guid id);
-    Task<List<Classes.Fornecedor>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria);
+    Task<List<FornecedorViewModel>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria);
 }

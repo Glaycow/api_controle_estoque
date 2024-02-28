@@ -14,5 +14,5 @@ public class Produto : ClasseBase
     public Categoria Categoria { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public Fornecedor Fornecedor { get; set; }
-    public List<Estoque>? Estoque { get; set; }
+    public List<Estoque> Estoque { get; set; }
 }

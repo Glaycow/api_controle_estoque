@@ -25,4 +25,9 @@
     <ProjectReference Include="..\ControleEstoque.Mensagens\ControleEstoque.Mensagens.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\V1\" />
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,4 @@ public class Fornecedor : ClasseBase
 {
     [Required(ErrorMessage = "{0} deve ser informado")]
     public string Nome { get; set; }
-    [Required(ErrorMessage = "{0} deve ser informado")]
-    public List<FornecedorCategoria> FornecedorCategoria { get; set; }
 }
