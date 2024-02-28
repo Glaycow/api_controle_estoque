@@ -9,5 +9,5 @@ public class Fornecedor : ClasseBase
     public string Nome { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public Guid TipoProdutoId { get; set; }
-    public virtual TipoProduto TipoProduto { get; set; }
+    public virtual Categoria Categoria { get; set; }
 }

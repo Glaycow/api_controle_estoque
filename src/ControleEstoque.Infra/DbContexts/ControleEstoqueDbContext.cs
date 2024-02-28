@@ -7,7 +7,7 @@ public class ControleEstoqueDbContext(DbContextOptions<ControleEstoqueDbContext>
 {
   
     public virtual DbSet<Fornecedor> Fornecedores { get; set; }
-    public virtual DbSet<TipoProduto> TipoProdutos { get; set; }
+    public virtual DbSet<Categoria> TipoProdutos { get; set; }
     public virtual DbSet<TipoQuantidade> TipoQuantidades { get; set; }
     public virtual DbSet<Produto> Produtos { get; set; }
     public virtual DbSet<Estoque> Estoques { get; set; }
