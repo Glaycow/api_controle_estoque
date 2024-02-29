@@ -8,6 +8,6 @@ public class Fornecedor : ClasseBase
     [Required(ErrorMessage = "{0} deve ser informado")]
     public string Nome { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public Guid TipoProdutoId { get; set; }
-    public virtual Categoria Categoria { get; set; }
+    public Guid CategoriaId { get; set; }
+    public List<FornecedorCategoria> Categorias { get; set; }
 }

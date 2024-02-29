@@ -17,6 +17,24 @@ namespace ControleEstoque.Infra.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Categoria", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Estoque", b =>
                 {
                     b.Property<Guid>("Id")
@@ -26,25 +44,13 @@ namespace ControleEstoque.Infra.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DataEntrada")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataSaida")
+                    b.Property<DateTime>("MesEstoque")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProdutoId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("SaldoQuantidade")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TipoCadastro")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Valor")
+                    b.Property<decimal>("SaldoEstoque")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -60,6 +66,9 @@ namespace ControleEstoque.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("CategoriaId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("TEXT");
 
@@ -67,20 +76,73 @@ namespace ControleEstoque.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("TipoProdutoId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Fornecedores");
+                });
+
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.FornecedorCategoria", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CategoriaId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FornecedorId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoProdutoId");
+                    b.HasIndex("CategoriaId");
 
-                    b.ToTable("Fornecedores");
+                    b.HasIndex("FornecedorId");
+
+                    b.ToTable("FornecedorCategoria");
+                });
+
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.LancamentoEstoque", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataLancamento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("EstoqueId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TipoCadastro")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstoqueId");
+
+                    b.ToTable("LancamentoEstoque");
                 });
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CategoriaId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataCadastro")
@@ -98,29 +160,13 @@ namespace ControleEstoque.Infra.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId");
+
                     b.HasIndex("FornecedorId");
 
                     b.HasIndex("TipoQuantidadeId");
 
                     b.ToTable("Produtos");
-                });
-
-            modelBuilder.Entity("ControleEstoque.Dominio.Classes.TipoProduto", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoProdutos");
                 });
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.TipoQuantidade", b =>
@@ -155,19 +201,44 @@ namespace ControleEstoque.Infra.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Fornecedor", b =>
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.FornecedorCategoria", b =>
                 {
-                    b.HasOne("ControleEstoque.Dominio.Classes.TipoProduto", "TipoProduto")
+                    b.HasOne("ControleEstoque.Dominio.Classes.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("TipoProdutoId")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TipoProduto");
+                    b.HasOne("ControleEstoque.Dominio.Classes.Fornecedor", "Fornecedor")
+                        .WithMany("Categorias")
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Fornecedor");
+                });
+
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.LancamentoEstoque", b =>
+                {
+                    b.HasOne("ControleEstoque.Dominio.Classes.Estoque", "Estoque")
+                        .WithMany()
+                        .HasForeignKey("EstoqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estoque");
                 });
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>
                 {
+                    b.HasOne("ControleEstoque.Dominio.Classes.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ControleEstoque.Dominio.Classes.Fornecedor", "Fornecedor")
                         .WithMany()
                         .HasForeignKey("FornecedorId")
@@ -180,9 +251,16 @@ namespace ControleEstoque.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Categoria");
+
                     b.Navigation("Fornecedor");
 
                     b.Navigation("TipoQuantidade");
+                });
+
+            modelBuilder.Entity("ControleEstoque.Dominio.Classes.Fornecedor", b =>
+                {
+                    b.Navigation("Categorias");
                 });
 
             modelBuilder.Entity("ControleEstoque.Dominio.Classes.Produto", b =>

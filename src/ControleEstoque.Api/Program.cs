@@ -11,7 +11,6 @@ builder
     .AddApplicationBuilder()
     .ResolveDependencies();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

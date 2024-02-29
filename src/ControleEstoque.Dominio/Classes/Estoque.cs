@@ -7,17 +7,24 @@ namespace ControleEstoque.Dominio.Classes;
 public class Estoque : ClasseBase
 {
     [Required(ErrorMessage = "{0} deve ser informado")]
+    public Guid ProdutoId { get; set; }
+    public virtual Produto Produto { get; set; }
+    public decimal SaldoEstoque { get; set; } = 0;
+    public DateTime MesEstoque { get; set; }
+}
+
+public class LancamentoEstoque : ClasseBase
+{
+    [Required(ErrorMessage = "{0} deve ser informado")]
+    public DateTime DataLancamento { get; set; }
+    [Required(ErrorMessage = "{0} deve ser informado")]
     [Range(0.01, 9999999.99, ErrorMessage = "Valor maximo permitido é entre {0} é {1}")]
     public decimal Valor { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public Guid ProdutoId { get; set; }
-    public virtual Produto Produto { get; set; }
-    [Required(ErrorMessage = "{0} deve ser informado")]
-    public decimal SaldoQuantidade { get; set; }
+    public TipoLancamento TipoCadastro { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public int Quantidade { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public TipoLancamento TipoCadastro { get; set; }
-    public DateTime DataEntrada { get; set; }
-    public DateTime DataSaida { get; set; }
+    public Guid EstoqueId { get; set; }
+    public virtual Estoque Estoque { get; set; }
 }
