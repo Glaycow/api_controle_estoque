@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Dominio", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Mensagens", "src\ControleEstoque.Mensagens\ControleEstoque.Mensagens.csproj", "{0D947BFB-268D-4219-89E6-7AAB5DE27609}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleEstoque.Exception", "src\ControleEstoque.Exception\ControleEstoque.Exception.csproj", "{1627E200-DF20-4030-A0EB-9541082EE6E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{0D947BFB-268D-4219-89E6-7AAB5DE27609}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D947BFB-268D-4219-89E6-7AAB5DE27609}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D947BFB-268D-4219-89E6-7AAB5DE27609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1627E200-DF20-4030-A0EB-9541082EE6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1627E200-DF20-4030-A0EB-9541082EE6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1627E200-DF20-4030-A0EB-9541082EE6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1627E200-DF20-4030-A0EB-9541082EE6E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{D73DF5DA-1703-4C41-BE31-0C46B285226D} = {D0992084-FAD4-4DCA-8136-D5C3FD3980B3}
 		{9F22F2FE-2B68-4512-917C-B6D008CD0F31} = {C698E78F-A48A-4F68-9389-BBD502832C47}
 		{0D947BFB-268D-4219-89E6-7AAB5DE27609} = {1A968F11-66FB-4CE7-89E3-4CE7E8700ED3}
+		{1627E200-DF20-4030-A0EB-9541082EE6E2} = {C698E78F-A48A-4F68-9389-BBD502832C47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B5088E8-F31F-4949-A9B1-A6D9397149C4}

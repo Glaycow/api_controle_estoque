@@ -1,11 +1,16 @@
-﻿using ControleEstoque.Infra.DbContexts;
+﻿using ControleEstoque.Api.CustomException;
+using ControleEstoque.Application.Servico.Fornecedor;
+using ControleEstoque.Dominio.Interfaces.Fornecedor;
+using ControleEstoque.Infra.DbContexts;
+using ControleEstoque.Infra.Repositorio.Fornecedor;
 
 namespace ControleEstoque.Api.Configuracao;
 
 public static class DependencyInjectionConfig
 {
-    public static WebApplicationBuilder ResolveDependencies(this WebApplicationBuilder builder)
+    public static void ResolveDependencies(this WebApplicationBuilder builder)
     {
+        builder.Services.AddMvc(op => op.Filters.Add(typeof(FiltroExceptions)));
         builder.Services.AddLogging(l =>
         {
             l.AddDebug();
@@ -15,9 +20,8 @@ public static class DependencyInjectionConfig
         builder.Services.AddScoped<ControleEstoqueDbContext>();
         
         // repositorio
-       
+        builder.Services.AddScoped<IFornecedorRepositorio, FornecedorRepositorio>();
         // servicos
-       
-        return builder;
+        builder.Services.AddScoped<IFornecedorServico, FornecedorServico>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ControleEstoque.Api.CustomException;
+﻿namespace ControleEstoque.Exception.CustomException;
 
 public class ValidationException : AppException
 {

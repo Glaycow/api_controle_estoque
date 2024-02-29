@@ -9,11 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ControleEstoque.Dominio\ControleEstoque.Dominio.csproj" />
+    <ProjectReference Include="..\ControleEstoque.Exception\ControleEstoque.Exception.csproj" />
     <ProjectReference Include="..\ControleEstoque.Infra\ControleEstoque.Infra.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Servico\" />
   </ItemGroup>
 
 </Project>

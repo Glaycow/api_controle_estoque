@@ -1,6 +1,6 @@
 ﻿namespace ControleEstoque.Dominio.Interfaces.Categoria;
 
-public interface ICategoriaServico
+public interface ICategoriaServico : IDisposable
 {
     Task<Classes.Categoria> AdicionarCategoriaAsync(Classes.Categoria categoria);
     Task<Classes.Categoria> AlterarCategoriaAsync(Classes.Categoria categoria);

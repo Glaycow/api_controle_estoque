@@ -1,4 +1,4 @@
-﻿using ControleEstoque.Api.CustomException;
+﻿using ControleEstoque.Exception.CustomException;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 

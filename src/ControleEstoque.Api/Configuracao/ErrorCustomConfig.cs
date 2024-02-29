@@ -1,4 +1,5 @@
 ﻿using ControleEstoque.Api.CustomException;
+using ControleEstoque.Exception.CustomException;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

@@ -21,4 +21,7 @@
     <data name="IdInvalido" xml:space="preserve">
         <value>O id informado não corresponde ao id da classe informada!</value>
     </data>
+    <data name="ErrorDesconhecido" xml:space="preserve">
+        <value>Error Desconhecido entrar em contato com suporte.</value>
+    </data>
 </root>

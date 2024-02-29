@@ -1,6 +1,6 @@
-﻿namespace ControleEstoque.Api.CustomException;
+﻿namespace ControleEstoque.Exception.CustomException;
 
-public class AppException : Exception
+public class AppException : System.Exception
 {
     public string? ErrorCode { get; set; }
 

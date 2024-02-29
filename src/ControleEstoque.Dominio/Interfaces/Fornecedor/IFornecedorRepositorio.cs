@@ -1,10 +1,10 @@
-﻿using ControleEstoque.Dominio.Model;
+﻿using ControleEstoque.Dominio.ViewModelResults.Fornecedor;
 
 namespace ControleEstoque.Dominio.Interfaces.Fornecedor;
 
 public interface IFornecedorRepositorio : IEntityDataService<Classes.Fornecedor>
 {
-    Task<List<FornecedorViewModel>> ObterListaFornecedorAsync();
-    Task<FornecedorViewModel> ObterFornecedorPorIdAsync(Guid id);
-    Task<List<FornecedorViewModel>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria);
+    Task<List<FornecedorViewModelResults>> ObterListaFornecedorAsync();
+    Task<FornecedorViewModelResults> ObterFornecedorPorIdAsync(Guid id);
+    Task<List<FornecedorViewModelResults>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria);
 }

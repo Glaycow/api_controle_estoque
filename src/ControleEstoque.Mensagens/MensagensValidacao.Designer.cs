@@ -60,6 +60,15 @@ namespace ControleEstoque.Mensagens {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error Desconhecido entrar em contato com suporte..
+        /// </summary>
+        public static string ErrorDesconhecido {
+            get {
+                return ResourceManager.GetString("ErrorDesconhecido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O id informado não corresponde ao id da classe informada!.
         /// </summary>
         public static string IdInvalido {
