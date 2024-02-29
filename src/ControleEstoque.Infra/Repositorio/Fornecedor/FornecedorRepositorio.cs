@@ -26,13 +26,43 @@ public class FornecedorRepositorio(ControleEstoqueDbContext dbContext) : EntityD
         return listaFornecedor;
     }
 
-    public Task<FornecedorViewModelResults> ObterFornecedorPorIdAsync(Guid id)
+    public async Task<FornecedorViewModelResults> ObterFornecedorPorIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var fornecedor = await dbContext.Fornecedores
+            .AsNoTracking()
+            .Select(f => new FornecedorViewModelResults
+            {
+                Id = f.Id,
+                Nome = f.Nome,
+                Categorias = f.Categorias.Select(c => new CategoriaViewModelResults
+                {
+                    Nome = c.Categoria.Nome,
+                    Id = c.CategoriaId
+                }).ToList()
+            })
+            .Where(f => f.Id == id)
+            .FirstAsync();
+
+        return fornecedor;
     }
 
-    public Task<List<FornecedorViewModelResults>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria)
+    public async Task<List<FornecedorViewModelResults>> ObterFornecedorPorIdCategoriaAsync(Guid idCategoria)
     {
-        throw new NotImplementedException();
+        var fornecedores = await  dbContext.Fornecedores
+            .AsNoTracking()
+            .Select(f => new FornecedorViewModelResults
+            {
+                Id = f.Id,
+                Nome = f.Nome,
+                Categorias = f.Categorias.Select(c => new CategoriaViewModelResults
+                {
+                    Nome = c.Categoria.Nome,
+                    Id = c.CategoriaId
+                }).ToList()
+            })
+            .Where(f => f.Categorias.Any(c => c.Id == idCategoria))
+            .ToListAsync();
+
+        return fornecedores;
     }
 }

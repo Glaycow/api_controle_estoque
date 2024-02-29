@@ -4,6 +4,7 @@ using ControleEstoque.Dominio.Interfaces.Fornecedor;
 using ControleEstoque.Dominio.ViewModelResults.Fornecedor;
 using ControleEstoque.Exception.CustomException;
 using ControleEstoque.Mensagens;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleEstoque.Api.Controllers.V1;
@@ -31,6 +32,15 @@ public class FornecedorController(IFornecedorServico fornecedorService, IFornece
   public async Task<IActionResult> Get(Guid id)
   {
     return  Ok(await _fornecedorRepositorio.ObterFornecedorPorIdAsync(id));
+  }
+
+  [HttpGet("{id:guid}/categoria")]
+  [ProducesResponseType(typeof(List<FornecedorViewModelResults>), StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+  public async Task<IActionResult> BuscarFornecedoresPorIdCategoria(Guid id)
+  {
+    return Ok(await  _fornecedorRepositorio.ObterFornecedorPorIdCategoriaAsync(id));
   }
   
   [HttpPost]
