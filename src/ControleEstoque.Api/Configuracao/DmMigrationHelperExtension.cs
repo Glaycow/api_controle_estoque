@@ -34,6 +34,7 @@ public static class DbMigrationHelpers
         var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
         var context = scope.ServiceProvider.GetRequiredService<ControleEstoqueDbContext>();
         await CadastrarTipoQuantidade(context);
+        await CadastrarTipoProduto(context);
     }
 
     private static async Task CadastrarTipoQuantidade(ControleEstoqueDbContext context)
