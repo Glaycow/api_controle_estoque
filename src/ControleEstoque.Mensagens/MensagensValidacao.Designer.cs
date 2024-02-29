@@ -28,7 +28,7 @@ namespace ControleEstoque.Mensagens {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public MensagensValidacao() {
+        internal MensagensValidacao() {
         }
         
         /// <summary>
@@ -65,6 +65,15 @@ namespace ControleEstoque.Mensagens {
         public static string ErrorDesconhecido {
             get {
                 return ResourceManager.GetString("ErrorDesconhecido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fornecedor com o Id informado não existe.
+        /// </summary>
+        public static string ForneceNaoEncontado {
+            get {
+                return ResourceManager.GetString("ForneceNaoEncontado", resourceCulture);
             }
         }
         

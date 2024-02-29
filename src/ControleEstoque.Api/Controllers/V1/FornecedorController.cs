@@ -3,6 +3,7 @@ using ControleEstoque.Api.ViewModel.Fornecedor;
 using ControleEstoque.Dominio.Interfaces.Fornecedor;
 using ControleEstoque.Dominio.ViewModelResults.Fornecedor;
 using ControleEstoque.Exception.CustomException;
+using ControleEstoque.Mensagens;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleEstoque.Api.Controllers.V1;
@@ -47,5 +48,29 @@ public class FornecedorController(IFornecedorServico fornecedorService, IFornece
     var fornecedorDb = await _fornecedorService.CadastrarFornecedorAsync(fornecedorConversao);
 
     return CreatedAtAction(nameof(Get), new { id = fornecedorDb.Id }, fornecedorDb);
+  }
+
+
+  [HttpPut("{id:guid}")]
+  [ProducesResponseType(typeof(FornecedorViewModelResults), StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+  public async Task<IActionResult> Put(Guid id ,[FromBody] AlterarFornecedorViewModel fornecedor)
+  {
+    
+    if (id != fornecedor.Id)
+    {
+      ModelState.AddModelError("Id", MensagensValidacao.IdInvalido);
+      return BadRequest(GerarErrosValidacao(ModelState));
+    }
+    
+    if (!ModelState.IsValid)
+    {
+      return BadRequest(GerarErrosValidacao(ModelState));
+    }
+
+    var converterFornecer = fornecedor.ConverterModel();
+    return Ok(await _fornecedorService.AlterarFornecedorAsync(converterFornecer));
+
   }
 }

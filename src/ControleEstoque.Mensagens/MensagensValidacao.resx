@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:element name="root" msdata:IsDataSet="true">
-            
-        </xsd:element>
+        <xsd:element name="root" msdata:IsDataSet="true"/>
     </xsd:schema>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
@@ -23,5 +20,8 @@
     </data>
     <data name="ErrorDesconhecido" xml:space="preserve">
         <value>Error Desconhecido entrar em contato com suporte.</value>
+    </data>
+    <data name="ForneceNaoEncontado" xml:space="preserve">
+        <value>Fornecedor com o Id informado não existe</value>
     </data>
 </root>
