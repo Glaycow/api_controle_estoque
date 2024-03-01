@@ -55,7 +55,7 @@ public class ProdutoController(IProdutoRepositorio produtoRepositorio, IProdutoS
     }
 
     [HttpDelete("{id:guid}")]
-    [ProducesResponseType(typeof(ProdutoViewModelResults), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeletarProduto(Guid id)
