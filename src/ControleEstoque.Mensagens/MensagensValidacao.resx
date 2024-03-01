@@ -135,4 +135,10 @@
   <data name="TipoQuantidadeVinculoProduto" xml:space="preserve">
     <value>Não é possivel excluir o tipo quantidade por que existe vinculo com produto(s)</value>
   </data>
+  <data name="Campo_obrigatorio" xml:space="preserve">
+    <value>O campo {PropertyName} precisa ser fornecido.</value>
+  </data>
+  <data name="IdGuidInvalido" xml:space="preserve">
+    <value>O campo {PropertyName} Não é um Id Valido</value>
+  </data>
 </root>
