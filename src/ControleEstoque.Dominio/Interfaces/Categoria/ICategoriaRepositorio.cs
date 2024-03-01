@@ -1,8 +1,13 @@
-﻿namespace ControleEstoque.Dominio.Interfaces.Categoria;
+﻿using ControleEstoque.Dominio.ViewModelResults.Categoria;
+
+namespace ControleEstoque.Dominio.Interfaces.Categoria;
 
 public interface ICategoriaRepositorio : IEntityDataService<Classes.Categoria>
 {
-    Task<IEnumerable<Classes.Categoria>> ObterListaCategoriaAsync();
-    Task<Classes.Categoria?> ObterCategoriaPorIdAsync(Guid id);
+    Task<IEnumerable<CategoriaViewModelResults>> ObterListaCategoriaAsync();
+    Task<CategoriaViewModelResults?> ObterCategoriaPorIdAsync(Guid id);
+    
+    Task<bool> ExisteCategoriaVinculoFornecedorAsync(Guid id);
+    Task<bool> ExisteCategoriaVinculoProdutoAsync(Guid id);
 }
 

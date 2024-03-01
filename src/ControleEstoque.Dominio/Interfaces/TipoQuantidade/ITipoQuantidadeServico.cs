@@ -1,8 +1,10 @@
-﻿namespace ControleEstoque.Dominio.Interfaces.TipoQuantidade;
+﻿using ControleEstoque.Dominio.ViewModelResults.TipoQuantidade;
+
+namespace ControleEstoque.Dominio.Interfaces.TipoQuantidade;
 
 public interface ITipoQuantidadeServico : IDisposable
 {
-    Task<Classes.TipoQuantidade> CadastrarTipoQuantidadeAsync(Classes.TipoQuantidade tipoQuantidade);
-    Task<Classes.TipoQuantidade> AlterarQuantidadeAsync(Classes.TipoQuantidade tipoQuantidade);
+    Task<TipoQuantidadeViewModelResults> CadastrarTipoQuantidadeAsync(Classes.TipoQuantidade tipoQuantidade);
+    Task<TipoQuantidadeViewModelResults> AlterarQuantidadeAsync(Classes.TipoQuantidade tipoQuantidade);
     Task ApagarTipoQuantidadeAsync(Guid id);
 }
