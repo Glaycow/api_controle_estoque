@@ -6,7 +6,7 @@ namespace ControleEstoque.Dominio.Classes;
 public class Produto : ClasseBase
 {
     [Required(ErrorMessage = "{0} deve ser informado")]
-    public string Nome { get; set; }
+    public string? Nome { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public Guid TipoQuantidadeId { get; set; }
     public virtual TipoQuantidade TipoQuantidade { get; set; }

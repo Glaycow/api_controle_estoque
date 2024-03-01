@@ -74,9 +74,11 @@ public class FornecedorServico(ControleEstoqueDbContext dbContext) : EntityDataS
         }
     }
 
-    public Task ApagarFornecedorAsync(Guid id)
+    public async Task ApagarFornecedorAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var fornecedor = await DbSet.FirstAsync(f => f.Id == id);
+        DbSet.Remove(fornecedor);
+        await  Db.SaveChangesAsync();
     }
 
     private async Task<Dominio.Classes.Fornecedor> BuscarFornecedorCategoriaPorIdAsync(Guid id)
