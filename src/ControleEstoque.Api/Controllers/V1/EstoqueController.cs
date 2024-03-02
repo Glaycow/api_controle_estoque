@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ControleEstoque.Api.Controllers.V1;
 
 [ApiVersion(1.0)]
-[ApiExplorerSettings(GroupName = "Categoria")]
+[ApiExplorerSettings(GroupName = "Estoque")]
 public class EstoqueController(
     IEstoqueServico estoqueServico,
     IEstoqueRepositorio estoqueRepositorio,
@@ -26,6 +26,7 @@ public class EstoqueController(
     private readonly ILancamentoEstoqueRepositorio _lancamentoEstoqueRepositorio = lancamentoEstoqueRepositorio;
 
     [HttpGet]
+    [EndpointGroupName("Estoque")]
     [ProducesResponseType(typeof(List<EstoqueViewModelResults>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -41,6 +42,7 @@ public class EstoqueController(
     }
     
     [HttpGet("lancamento-estoque")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(List<LancamentoEstoqueViewModelResults>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -56,6 +58,7 @@ public class EstoqueController(
     }
     
     [HttpGet("lancamento-estoque/{id:guid}")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(LancamentoEstoqueViewModelResults), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -66,6 +69,7 @@ public class EstoqueController(
     }
 
     [HttpGet("{id:guid}")]
+    [EndpointGroupName("Estoque")]
     [ProducesResponseType(typeof(EstoqueViewModelResults), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -76,6 +80,7 @@ public class EstoqueController(
     }
 
     [HttpPost("lancamento-estoque-entrada")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -91,6 +96,7 @@ public class EstoqueController(
     }
     
     [HttpPost("lancamento-estoque-saida")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -106,6 +112,7 @@ public class EstoqueController(
     }
     
     [HttpPost("lancamento-estoque/{id:guid}")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -127,6 +134,7 @@ public class EstoqueController(
     }
 
     [HttpDelete("lancamento-estoque/{id:guid}")]
+    [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
