@@ -32,7 +32,7 @@ public class CategoriaController(ICategoriaServico categoriaServico, ICategoriaR
     public async Task<IActionResult> Get(Guid id)
     {
         var categoria = await _categoriaRepositorio.ObterCategoriaPorIdAsync(id);
-        return Ok(categoria); 
+        return Ok(categoria);
     }
 
     [HttpPost]
@@ -45,7 +45,7 @@ public class CategoriaController(ICategoriaServico categoriaServico, ICategoriaR
         {
             return BadRequest(GerarErrosValidacao(ModelState));
         }
-        
+
         var categoriaCriada = await _categoriaServico.AdicionarCategoriaAsync(categoria.Converter());
         return CreatedAtAction(nameof(Get), new { id = categoriaCriada.Id }, categoriaCriada);
     }
@@ -61,12 +61,12 @@ public class CategoriaController(ICategoriaServico categoriaServico, ICategoriaR
             ModelState.AddModelError("Id", MensagensValidacao.IdInvalido);
             return BadRequest(GerarErrosValidacao(ModelState));
         }
-    
+
         if (!ModelState.IsValid)
         {
             return BadRequest(GerarErrosValidacao(ModelState));
         }
-        
+
         var categoriaAtualizada = await _categoriaServico.AlterarCategoriaAsync(categoria.Converter());
         return Ok(categoriaAtualizada);
     }
@@ -78,6 +78,6 @@ public class CategoriaController(ICategoriaServico categoriaServico, ICategoriaR
     public async Task<IActionResult> Delete(Guid id)
     {
         await _categoriaServico.ApagarCategoriaAsync(id);
-        return Ok(); 
+        return Ok();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ControleEstoque.Dominio.Base;
 using ControleEstoque.Dominio.Enum;
 
@@ -18,4 +19,6 @@ public class LancamentoEstoque : ClasseBase
     [Required(ErrorMessage = "{0} deve ser informado")]
     public Guid EstoqueId { get; set; }
     public virtual Estoque Estoque { get; set; }
+    [NotMapped] 
+    public Guid ProdutoId { get; set; }
 }

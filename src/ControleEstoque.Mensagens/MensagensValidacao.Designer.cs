@@ -69,7 +69,7 @@ namespace ControleEstoque.Mensagens {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Não é possivel excluir a categoria por que existe vinculo com fornecedor(es).
+        ///   Looks up a localized string similar to Não é possível excluir a categoria por que existe vinculo com fornecedor(es).
         /// </summary>
         public static string CategoriaVinculoFornecedor {
             get {
@@ -78,11 +78,20 @@ namespace ControleEstoque.Mensagens {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Não é possivel excluir a categoria por que existe vinculo com produto(s).
+        ///   Looks up a localized string similar to Não é possível excluir a categoria por que existe vinculo com produto(s).
         /// </summary>
         public static string CategoriaVinculoProduto {
             get {
                 return ResourceManager.GetString("CategoriaVinculoProduto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não foi possível realizar a exclusão do lancamento..
+        /// </summary>
+        public static string ErroExcluirLancamentoEstoque {
+            get {
+                return ResourceManager.GetString("ErroExcluirLancamentoEstoque", resourceCulture);
             }
         }
         
@@ -92,6 +101,15 @@ namespace ControleEstoque.Mensagens {
         public static string ErrorDesconhecido {
             get {
                 return ResourceManager.GetString("ErrorDesconhecido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Não foi possível realizar o lançamento do estoque entrar em contato com suporte..
+        /// </summary>
+        public static string ErrorLancamentoEstoque {
+            get {
+                return ResourceManager.GetString("ErrorLancamentoEstoque", resourceCulture);
             }
         }
         
@@ -123,7 +141,7 @@ namespace ControleEstoque.Mensagens {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Não é possivel excluir o tipo quantidade por que existe vinculo com produto(s).
+        ///   Looks up a localized string similar to Não é possível excluir o tipo quantidade por que existe vinculo com produto(s).
         /// </summary>
         public static string TipoQuantidadeVinculoProduto {
             get {
