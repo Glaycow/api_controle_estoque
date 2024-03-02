@@ -10,12 +10,12 @@ namespace ControleEstoque.Infra.Repositorio.LancamentoEstoque;
 
 public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityDataService<Dominio.Classes.LancamentoEstoque>(dbContext), ILancamentoEstoqueRepositorio, ILancamentoEstoqueGerenciarRepositorio
 {
-    public Task<List<LancamentoEstoqueViewModelResults>> ObterTodos(Guid idEstoque, DateTime dataLancamento)
+    public async Task<List<LancamentoEstoqueViewModelResults>> ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(Guid idEstoque, DateTime dataLancamento)
     {
         var primeiroDiaDoMes = new DateTime(dataLancamento.Year, dataLancamento.Month, 1);
         var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
         var lancamentos = 
-            DbSet.AsNoTracking()
+            await DbSet.AsNoTracking()
                 .Select(l => new LancamentoEstoqueViewModelResults
                 {
                     Id = l.Id,
@@ -27,6 +27,23 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
                 })
                 .Where(l => l.EstoqueId == idEstoque && l.DataLancamento >= primeiroDiaDoMes && l.DataLancamento <= ultimoDiaDoMes)
                 .ToListAsync();
+        return lancamentos;
+    }
+
+    public async Task<LancamentoEstoqueViewModelResults> ObteLancamentoEstoquePorIdAsync(Guid idEstoque)
+    {
+        var lancamentos = 
+            await DbSet.AsNoTracking()
+                .Select(l => new LancamentoEstoqueViewModelResults
+                {
+                    Id = l.Id,
+                    Quantidade = l.Quantidade,
+                    Valor = l.Valor,
+                    DataLancamento = l.DataLancamento,
+                    EstoqueId = l.EstoqueId,
+                    TipoLancamento = l.TipoCadastro
+                })
+                .FirstAsync(l => l.EstoqueId == idEstoque);
         return lancamentos;
     }
 
@@ -73,7 +90,27 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
             throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);
         }
     }
-    
+
+    public async Task RetiradaLancamentoEstoque(Dominio.Classes.LancamentoEstoque lancamentoEstoque)
+    {
+        await using var transaction = await Db.Database.BeginTransactionAsync();
+        try
+        {
+            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId && e.MesEstoque == lancamentoEstoque.DataLancamento);
+            estoque.SaldoEstoque -= lancamentoEstoque.Quantidade;
+            lancamentoEstoque.EstoqueId = lancamentoEstoque.Id;
+            await DbSet.AddAsync(lancamentoEstoque);
+            Db.Estoques.Update(estoque);
+            await Db.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch (System.Exception)
+        {
+            await transaction.RollbackAsync();
+            throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);
+        }
+    }
+
     public async Task AlterarLancamentoEstoqueAsync(Dominio.Classes.LancamentoEstoque lancamentoEstoque)
     {
         await using var transaction = await Db.Database.BeginTransactionAsync();

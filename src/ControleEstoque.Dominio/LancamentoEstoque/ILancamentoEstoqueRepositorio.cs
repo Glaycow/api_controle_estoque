@@ -5,5 +5,6 @@ namespace ControleEstoque.Dominio.LancamentoEstoque;
 
 public interface ILancamentoEstoqueRepositorio : IEntityDataService<Classes.LancamentoEstoque>
 {
-    Task<List<LancamentoEstoqueViewModelResults>> ObterTodos(Guid idEstoque, DateTime dataLancamento);
+    Task<List<LancamentoEstoqueViewModelResults>> ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(Guid idEstoque, DateTime dataLancamento);
+    Task<LancamentoEstoqueViewModelResults> ObteLancamentoEstoquePorIdAsync(Guid idEstoque);
 }

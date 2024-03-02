@@ -34,6 +34,12 @@ public class LancamentoEstoqueServico(
         return lancamentoEstoque.Id;
     }
 
+    public async Task<Guid> RetiradaLancamentoEstoqueAsync(LancamentoEstoque lancamentoEstoque)
+    {
+        await _lancamentoEstoqueGerenciar.RetiradaLancamentoEstoque(lancamentoEstoque);
+        return lancamentoEstoque.Id;
+    }
+
     public async Task<Guid> AlterarLancamentoEstoqueAsync(LancamentoEstoque lancamentoEstoque)
     {
         await _lancamentoEstoqueGerenciar.AlterarLancamentoEstoqueAsync(lancamentoEstoque);
