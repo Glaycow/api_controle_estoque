@@ -15,6 +15,7 @@ builder
 var app = builder.Build();
 
 app.AddCustomErrorConfig();
+app.UseCors("Development");
 
 var providerSwagger = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 if (app.Environment.IsDevelopment())
