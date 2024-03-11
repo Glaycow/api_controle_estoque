@@ -81,6 +81,15 @@ public class FornecedorController(IFornecedorServico fornecedorService, IFornece
 
     var converterFornecer = fornecedor.ConverterModel();
     return Ok(await _fornecedorService.AlterarFornecedorAsync(converterFornecer));
+  }
 
+  [HttpDelete("{id:guid}")]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+  public async Task<IActionResult> Delete(Guid id)
+  {
+    await  _fornecedorService.ApagarFornecedorAsync(id);
+    return Ok();
   }
 }

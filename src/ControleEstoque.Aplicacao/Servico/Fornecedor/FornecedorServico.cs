@@ -39,15 +39,20 @@ public class FornecedorServico(ControleEstoqueDbContext dbContext) : EntityDataS
 
             buscarFornecedor.Nome = fornecedor.Nome;
             // Remove as categorias que não estão mais presentes no fornecedor atualizado
-            foreach (var categoriaExistente in fornecedor.Categorias.Where(categoriaExistente => !buscarFornecedor.Categorias.Contains(categoriaExistente)))
+            var categoriasRemovidas = buscarFornecedor.Categorias.Where(
+                categoriaExistenteFornecedor => fornecedor.Categorias.All(categoriaId => categoriaId.CategoriaId != categoriaExistenteFornecedor.CategoriaId)).ToList();
+            if (categoriasRemovidas.Count != 0)
             {
-                // todo depois fazer uma validação para não deixar remover uma categoria de um fornecedor que já tenha um produto da mesma.
-                var buscarCategoriaRemovida = await Db.FornecedorCategoria
-                    .Where(fc => fc.CategoriaId == categoriaExistente.CategoriaId && fc.FornecedorId == categoriaExistente.FornecedorId)
-                    .FirstOrDefaultAsync();
-                if (buscarCategoriaRemovida != null)
+                foreach (var fornecedorCategoria in categoriasRemovidas)
                 {
-                    Db.FornecedorCategoria.Remove(buscarCategoriaRemovida);
+                    // todo depois fazer uma validação para não deixar remover uma categoria de um fornecedor que já tenha um produto da mesma.
+                    var buscarCategoriaRemovida = await Db.FornecedorCategoria
+                        .Where(fc => fc.CategoriaId == fornecedorCategoria.CategoriaId && fc.FornecedorId == fornecedorCategoria.FornecedorId)
+                        .FirstOrDefaultAsync();
+                    if (buscarCategoriaRemovida != null)
+                    {
+                        Db.FornecedorCategoria.Remove(buscarCategoriaRemovida);
+                    }
                 }
             }
             // Adiciona novas categorias ao fornecedor
@@ -77,6 +82,7 @@ public class FornecedorServico(ControleEstoqueDbContext dbContext) : EntityDataS
     public async Task ApagarFornecedorAsync(Guid id)
     {
         var fornecedor = await DbSet.FirstAsync(f => f.Id == id);
+        // todo fazer validação se o fornecedor não está amarrado com nenhum produto.
         DbSet.Remove(fornecedor);
         await  Db.SaveChangesAsync();
     }
