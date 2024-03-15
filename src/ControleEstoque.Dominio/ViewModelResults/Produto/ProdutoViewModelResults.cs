@@ -18,17 +18,8 @@ public class  ProdutoViewModelResults
     {
         Id = produto.Id;
         Nome = produto.Nome;
-        Fornecedor = new FornecedorViewModelResults
-        {
-            Id = produto.Fornecedor.Id
-        };
-        TipoQuantidade = new TipoQuantidadeViewModelResults
-        {
-            Id = produto.Id
-        };
-        Categoria = new CategoriaViewModelResults
-        {
-            Id = produto.Categoria.Id,
-        };
+        Fornecedor = new FornecedorViewModelResults(produto.FornecedorId);
+        TipoQuantidade = new TipoQuantidadeViewModelResults(produto.TipoQuantidadeId);
+        Categoria = new CategoriaViewModelResults(produto.CategoriaId);
     }
 }
