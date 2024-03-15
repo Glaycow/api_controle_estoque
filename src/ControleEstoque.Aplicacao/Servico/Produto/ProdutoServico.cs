@@ -14,16 +14,8 @@ public class ProdutoServico(IProdutoRepositorio produtoRepositorio) : IProdutoSe
 
     public async Task<ProdutoViewModelResults> CadastrarProdutoAsync(Dominio.Classes.Produto produto)
     {
-        try
-        {
-            await _produtoRepositorio.Add(produto);
-            return new ProdutoViewModelResults(produto);
-        }
-        catch (System.Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await _produtoRepositorio.Add(produto);
+        return new ProdutoViewModelResults(produto);
     }
 
     public async Task<ProdutoViewModelResults> AlterarProdutoAsync(Dominio.Classes.Produto produto)
