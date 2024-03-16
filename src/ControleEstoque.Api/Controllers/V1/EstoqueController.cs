@@ -41,6 +41,17 @@ public class EstoqueController(
         return Ok(estoques);
     }
     
+    [HttpGet("{id:guid}")]
+    [EndpointGroupName("Estoque")]
+    [ProducesResponseType(typeof(EstoqueViewModelResults), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var estoque = await _estoqueRepositorio.BuscarEstoquePorIdAsync(id);
+        return Ok(estoque);
+    }
+    
     [HttpGet("lancamento-estoque")]
     [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(List<LancamentoEstoqueViewModelResults>), StatusCodes.Status200OK)]
@@ -48,12 +59,13 @@ public class EstoqueController(
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterLancamentosEstoquePorProduto([FromQuery] LancamentoEstoqueQueryViewModel query)
     {
+        query.ConverterData();
         if (!ModelState.IsValid)
         {
             return BadRequest(GerarErrosValidacao(ModelState));
         }
 
-        var estoques = await _lancamentoEstoqueRepositorio.ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(query.ProdutoId, query.DataLancamento);
+        var estoques = await _lancamentoEstoqueRepositorio.ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(query.ProdutoId, query.Data);
         return Ok(estoques);
     }
     
@@ -66,17 +78,6 @@ public class EstoqueController(
     {
         var estoques = await _lancamentoEstoqueRepositorio.ObteLancamentoEstoquePorIdAsync(id);
         return Ok(estoques);
-    }
-
-    [HttpGet("{id:guid}")]
-    [EndpointGroupName("Estoque")]
-    [ProducesResponseType(typeof(EstoqueViewModelResults), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(Guid id)
-    {
-        var estoque = await _estoqueRepositorio.BuscarEstoquePorIdAsync(id);
-        return Ok(estoque);
     }
 
     [HttpPost("lancamento-estoque-entrada")]
@@ -111,7 +112,7 @@ public class EstoqueController(
         return Ok(id);
     }
     
-    [HttpPost("lancamento-estoque/{id:guid}")]
+    [HttpPut("lancamento-estoque/{id:guid}/retirada")]
     [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]

@@ -14,7 +14,6 @@ public class LancamentoEstoqueViewModel
     public TipoLancamento TipoCadastro { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public int Quantidade { get; set; }
-    [Required(ErrorMessage = "{0} deve ser informado")]
     public Guid EstoqueId { get; set; }
     [Required(ErrorMessage = "{0} deve ser informado")]
     public Guid ProdutoId { get; set; }

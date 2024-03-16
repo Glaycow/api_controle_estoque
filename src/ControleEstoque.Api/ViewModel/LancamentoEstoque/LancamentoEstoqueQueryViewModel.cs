@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using static System.DateTime;
 
 namespace ControleEstoque.Api.ViewModel.LancamentoEstoque;
 
@@ -9,5 +11,12 @@ public class LancamentoEstoqueQueryViewModel
     
     [Required(ErrorMessage = "Data de início obrigatória")]
     [DataType(DataType.Date)]
-    public DateTime DataLancamento { get; set; }
+    public string DataLancamento { get; set; }
+    internal DateTime Data { get; private set; }
+
+    public void ConverterData()
+    {
+        TryParse(DataLancamento.ToString(CultureInfo.InvariantCulture), out var data);
+        Data = data;
+    }
 }

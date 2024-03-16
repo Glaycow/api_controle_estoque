@@ -10,12 +10,14 @@ namespace ControleEstoque.Infra.Repositorio.LancamentoEstoque;
 
 public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityDataService<Dominio.Classes.LancamentoEstoque>(dbContext), ILancamentoEstoqueRepositorio, ILancamentoEstoqueGerenciarRepositorio
 {
-    public async Task<List<LancamentoEstoqueViewModelResults>> ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(Guid idEstoque, DateTime dataLancamento)
+    public async Task<List<LancamentoEstoqueViewModelResults>> ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(Guid idProduto, DateTime dataLancamento)
     {
         var primeiroDiaDoMes = new DateTime(dataLancamento.Year, dataLancamento.Month, 1);
         var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
         var lancamentos = 
             await DbSet.AsNoTracking()
+                .Include(l => l.Estoque)
+                .Where(l => l.Estoque.ProdutoId == idProduto && l.DataLancamento >= primeiroDiaDoMes && l.DataLancamento <= ultimoDiaDoMes)
                 .Select(l => new LancamentoEstoqueViewModelResults
                 {
                     Id = l.Id,
@@ -25,7 +27,6 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
                     EstoqueId = l.EstoqueId,
                     TipoLancamento = l.TipoCadastro
                 })
-                .Where(l => l.EstoqueId == idEstoque && l.DataLancamento >= primeiroDiaDoMes && l.DataLancamento <= ultimoDiaDoMes)
                 .ToListAsync();
         return lancamentos;
     }
