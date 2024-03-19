@@ -97,15 +97,20 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId && e.MesEstoque == lancamentoEstoque.DataLancamento);
+            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
+            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
+            var estoque = await Db.Estoques
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
+                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .FirstAsync();
             estoque.SaldoEstoque -= lancamentoEstoque.Quantidade;
-            lancamentoEstoque.EstoqueId = lancamentoEstoque.Id;
+            lancamentoEstoque.EstoqueId = estoque.Id;
             await DbSet.AddAsync(lancamentoEstoque);
             Db.Estoques.Update(estoque);
             await Db.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             await transaction.RollbackAsync();
             throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);
