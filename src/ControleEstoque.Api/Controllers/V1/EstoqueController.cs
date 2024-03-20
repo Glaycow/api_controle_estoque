@@ -74,7 +74,7 @@ public class EstoqueController(
     [ProducesResponseType(typeof(LancamentoEstoqueViewModelResults), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ObterLancamentosEstoquePorProduto(Guid id)
+    public async Task<IActionResult> ObterLancamentosEstoquePorId(Guid id)
     {
         var estoques = await _lancamentoEstoqueRepositorio.ObteLancamentoEstoquePorIdAsync(id);
         return Ok(estoques);
@@ -112,12 +112,12 @@ public class EstoqueController(
         return Ok(id);
     }
     
-    [HttpPut("lancamento-estoque/{id:guid}/retirada")]
+    [HttpPut("lancamento-estoque/{id:guid}")]
     [EndpointGroupName("Lançamento Estoque")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> RetiradaLancamentoEstoque([FromBody] LancamentoEstoqueAlterarViewModel estoque, Guid id)
+    public async Task<IActionResult> AlterarLancamentoEstoque([FromBody] LancamentoEstoqueAlterarViewModel estoque, Guid id)
     {
         if (id != estoque.Id)
         {

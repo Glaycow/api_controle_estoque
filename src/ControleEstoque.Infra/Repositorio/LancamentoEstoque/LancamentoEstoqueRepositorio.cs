@@ -1,4 +1,6 @@
-﻿using ControleEstoque.Dominio.LancamentoEstoque;
+﻿using ControleEstoque.Dominio.Enum;
+using ControleEstoque.Dominio.Interfaces.Produto;
+using ControleEstoque.Dominio.LancamentoEstoque;
 using ControleEstoque.Dominio.ViewModelResults.LancamentoEstoque;
 using ControleEstoque.Exception.CustomException;
 using ControleEstoque.Infra.DbContexts;
@@ -8,8 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleEstoque.Infra.Repositorio.LancamentoEstoque;
 
-public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityDataService<Dominio.Classes.LancamentoEstoque>(dbContext), ILancamentoEstoqueRepositorio, ILancamentoEstoqueGerenciarRepositorio
+public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IProdutoRepositorio produtoRepositorio) : EntityDataService<Dominio.Classes.LancamentoEstoque>(dbContext), ILancamentoEstoqueRepositorio, ILancamentoEstoqueGerenciarRepositorio
 {
+    private readonly IProdutoRepositorio _produtoRepositorio = produtoRepositorio;
     public async Task<List<LancamentoEstoqueViewModelResults>> ObterTodosLancamentosEstoquePorProdutoDataLancamentoAsync(Guid idProduto, DateTime dataLancamento)
     {
         var primeiroDiaDoMes = new DateTime(dataLancamento.Year, dataLancamento.Month, 1);
@@ -31,10 +34,11 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
         return lancamentos;
     }
 
-    public async Task<LancamentoEstoqueViewModelResults> ObteLancamentoEstoquePorIdAsync(Guid idEstoque)
+    public async Task<LancamentoEstoqueViewModelResults> ObteLancamentoEstoquePorIdAsync(Guid id)
     {
         var lancamentos = 
             await DbSet.AsNoTracking()
+                .Where(l => l.Id == id)
                 .Select(l => new LancamentoEstoqueViewModelResults
                 {
                     Id = l.Id,
@@ -44,7 +48,7 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
                     EstoqueId = l.EstoqueId,
                     TipoLancamento = l.TipoCadastro
                 })
-                .FirstAsync(l => l.EstoqueId == idEstoque);
+                .FirstAsync();
         return lancamentos;
     }
 
@@ -73,13 +77,30 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var estoque = new Dominio.Classes.Estoque
+            var cadastarEstoque = false;
+            var produto = await _produtoRepositorio.BuscarProdutoPorIdAsync(lancamentoEstoque.ProdutoId);
+            lancamentoEstoque.Quantidade = (produto.TipoQuantidade.Quantidade * lancamentoEstoque.Quantidade);
+            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
+            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
+            var estoque = await Db.Estoques
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
+                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .FirstOrDefaultAsync();
+            if (estoque == null)
             {
-                MesEstoque = lancamentoEstoque.DataLancamento,
-                ProdutoId = lancamentoEstoque.ProdutoId,
-                SaldoEstoque = lancamentoEstoque.Quantidade
-            };
-            await Db.Estoques.AddAsync(estoque);
+                estoque = new Dominio.Classes.Estoque
+                {
+                    MesEstoque = lancamentoEstoque.DataLancamento,
+                    ProdutoId = lancamentoEstoque.ProdutoId,
+                    SaldoEstoque = lancamentoEstoque.Quantidade
+                };
+                cadastarEstoque = true;
+            }
+
+            if (cadastarEstoque)
+            {
+                await Db.Estoques.AddAsync(estoque);
+            }
             lancamentoEstoque.EstoqueId = estoque.Id;
             await Db.LancamentoEstoques.AddAsync(lancamentoEstoque);
             await Db.SaveChangesAsync();
@@ -110,7 +131,7 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
             await Db.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             await transaction.RollbackAsync();
             throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);
@@ -122,8 +143,16 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId && e.MesEstoque == lancamentoEstoque.DataLancamento);
-            var lancamentoEstoqueDb = await DbSet.FirstAsync(l => l.Id == lancamentoEstoque.Id);
+            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
+            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
+            var estoque = await Db.Estoques
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
+                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .FirstAsync();
+            var lancamentoEstoqueDb = await DbSet.Where(l => l.Id == lancamentoEstoque.Id).FirstAsync();
+            lancamentoEstoqueDb.DataLancamento  = lancamentoEstoque.DataLancamento;
+            lancamentoEstoqueDb.Quantidade = lancamentoEstoque.Quantidade;
+            lancamentoEstoqueDb.Valor = lancamentoEstoque.Valor;
             if (lancamentoEstoque.Quantidade > lancamentoEstoqueDb.Quantidade)
             {
                 estoque.SaldoEstoque += lancamentoEstoque.Quantidade - lancamentoEstoqueDb.Quantidade;
@@ -132,12 +161,19 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
             {
                 estoque.SaldoEstoque -= lancamentoEstoqueDb.Quantidade - lancamentoEstoque.Quantidade;
             }
+
+            if (lancamentoEstoque.TipoCadastro == TipoLancamento.Entrada)
+            {
+                var produto = await _produtoRepositorio.BuscarProdutoPorIdAsync(lancamentoEstoque.ProdutoId);
+                lancamentoEstoqueDb.Quantidade = (produto.TipoQuantidade.Quantidade * lancamentoEstoque.Quantidade);
+            }
             Db.Estoques.Update(estoque);
-            DbSet.Update(lancamentoEstoque);
+            DbSet.Entry(lancamentoEstoqueDb).State = EntityState.Modified;
+            DbSet.Update(lancamentoEstoqueDb);
             await Db.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             await transaction.RollbackAsync();
             throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);
@@ -149,17 +185,20 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext) : 
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var lancamentoEstoqueDb = await DbSet.FirstAsync(l => l.Id == idLancamentoEstoque);
+            var lancamentoEstoqueDb = await DbSet.Where(l => l.Id == idLancamentoEstoque).FirstAsync();
             var primeiroDiaDoMes = new DateTime(lancamentoEstoqueDb.DataLancamento.Year, lancamentoEstoqueDb.DataLancamento.Month, 1);
             var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
-            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoqueDb.ProdutoId && e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque <= ultimoDiaDoMes);
+            var estoque = await Db.Estoques
+                .Where(e => e.Id == lancamentoEstoqueDb.EstoqueId && 
+                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .FirstAsync();
             estoque.SaldoEstoque -= lancamentoEstoqueDb.Quantidade;
             Db.Estoques.Update(estoque);
             DbSet.Remove(lancamentoEstoqueDb);
             await Db.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             await transaction.RollbackAsync();
             throw new BadRequestException(MensagensValidacao.ErroExcluirLancamentoEstoque);
