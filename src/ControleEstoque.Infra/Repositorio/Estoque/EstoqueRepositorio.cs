@@ -8,18 +8,17 @@ namespace ControleEstoque.Infra.Repositorio.Estoque;
 
 public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityDataService<Dominio.Classes.Estoque>(dbContext), IEstoqueRepositorio, IEstoqueGerenciamentoRepositorio
 {
-    public async Task<List<EstoqueViewModelResults>> BuscarListaEstoqueProdutoAsync(Guid produtoId, DateTime dataInicio, DateTime dataFim)
+    public async Task<List<EstoqueViewModelResults>> BuscarListaEstoqueProdutoAsync(Guid produtoId)
     {
         var estoques = await DbSet
             .AsNoTracking()
             .Select(estoque => new EstoqueViewModelResults
             {
                 Id = estoque.Id,
-                MesEstoque = estoque.MesEstoque,
                 ProdutoId = estoque.ProdutoId,
                 SaldoEstoque = estoque.SaldoEstoque
             })
-            .Where(e => e.ProdutoId == produtoId && (e.MesEstoque >= dataInicio && e.MesEstoque <= dataFim))
+            .Where(e => e.ProdutoId == produtoId)
             .ToListAsync();
 
         return estoques;
@@ -32,7 +31,6 @@ public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityData
             .Select(estoque => new EstoqueViewModelResults
             {
                 Id = estoque.Id,
-                MesEstoque = estoque.MesEstoque,
                 ProdutoId = estoque.ProdutoId,
                 SaldoEstoque = estoque.SaldoEstoque
             })
@@ -41,9 +39,9 @@ public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityData
         return estoque;
     }
 
-    public Task<bool> ValidarEstoqueMesAsync(Guid idProduto, DateTime anoMesLancamento)
+    public Task<bool> ValidarEstoqueMesAsync(Guid idProduto)
     {
-        var validar = DbSet.AsNoTracking().AnyAsync(e => e.ProdutoId == idProduto && e.MesEstoque == anoMesLancamento);
+        var validar = DbSet.AsNoTracking().AnyAsync(e => e.ProdutoId == idProduto);
         return validar;
     }
 }

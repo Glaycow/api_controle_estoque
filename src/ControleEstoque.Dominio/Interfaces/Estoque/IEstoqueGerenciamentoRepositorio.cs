@@ -2,5 +2,5 @@
 
 public interface IEstoqueGerenciamentoRepositorio : IDisposable
 {
-    Task<bool> ValidarEstoqueMesAsync(Guid idProduto, DateTime anoMesLancamento);
+    Task<bool> ValidarEstoqueMesAsync(Guid idProduto);
 }

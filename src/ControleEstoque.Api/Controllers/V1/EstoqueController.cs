@@ -37,7 +37,7 @@ public class EstoqueController(
             return BadRequest(GerarErrosValidacao(ModelState));
         }
 
-        var estoques = await _estoqueRepositorio.BuscarListaEstoqueProdutoAsync(query.ProdutoId, query.DataInicio, query.DataFim);
+        var estoques = await _estoqueRepositorio.BuscarListaEstoqueProdutoAsync(query.ProdutoId);
         return Ok(estoques);
     }
     

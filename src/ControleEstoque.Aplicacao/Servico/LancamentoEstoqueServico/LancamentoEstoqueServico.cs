@@ -23,7 +23,7 @@ public class LancamentoEstoqueServico(
 
     public async Task<Guid> AdicionarLancamentoEstoqueAsync(LancamentoEstoque lancamentoEstoque)
     {
-        var validarEstoqueMes = await _estoqueGerenciamentoRepositorio.ValidarEstoqueMesAsync(lancamentoEstoque.ProdutoId, lancamentoEstoque.DataLancamento);
+        var validarEstoqueMes = await _estoqueGerenciamentoRepositorio.ValidarEstoqueMesAsync(lancamentoEstoque.ProdutoId);
         if (validarEstoqueMes)
         {
             await _lancamentoEstoqueGerenciar.CadastrarLancamentoEstoqueComEstoqueDisponivelAsync(lancamentoEstoque);

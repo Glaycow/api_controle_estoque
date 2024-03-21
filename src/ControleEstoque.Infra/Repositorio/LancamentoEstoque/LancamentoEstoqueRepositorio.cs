@@ -57,7 +57,7 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId && e.MesEstoque == lancamentoEstoque.DataLancamento);
+            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId);
             estoque.SaldoEstoque += lancamentoEstoque.Quantidade;
             lancamentoEstoque.EstoqueId = lancamentoEstoque.Id;
             await DbSet.AddAsync(lancamentoEstoque);
@@ -80,21 +80,21 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
             var cadastarEstoque = false;
             var produto = await _produtoRepositorio.BuscarProdutoPorIdAsync(lancamentoEstoque.ProdutoId);
             lancamentoEstoque.Quantidade = (produto.TipoQuantidade.Quantidade * lancamentoEstoque.Quantidade);
-            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
-            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
             var estoque = await Db.Estoques
-                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
-                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId)
                 .FirstOrDefaultAsync();
             if (estoque == null)
             {
                 estoque = new Dominio.Classes.Estoque
                 {
-                    MesEstoque = lancamentoEstoque.DataLancamento,
                     ProdutoId = lancamentoEstoque.ProdutoId,
                     SaldoEstoque = lancamentoEstoque.Quantidade
                 };
                 cadastarEstoque = true;
+            }
+            else
+            {
+                estoque.SaldoEstoque += lancamentoEstoque.Quantidade;
             }
 
             if (cadastarEstoque)
@@ -118,11 +118,8 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
-            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
             var estoque = await Db.Estoques
-                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
-                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId)
                 .FirstAsync();
             estoque.SaldoEstoque -= lancamentoEstoque.Quantidade;
             lancamentoEstoque.EstoqueId = estoque.Id;
@@ -143,11 +140,8 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var primeiroDiaDoMes = new DateTime(lancamentoEstoque.DataLancamento.Year, lancamentoEstoque.DataLancamento.Month, 1);
-            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
             var estoque = await Db.Estoques
-                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId && 
-                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId)
                 .FirstAsync();
             var lancamentoEstoqueDb = await DbSet.Where(l => l.Id == lancamentoEstoque.Id).FirstAsync();
             lancamentoEstoqueDb.DataLancamento  = lancamentoEstoque.DataLancamento;
@@ -186,11 +180,8 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
         try
         {
             var lancamentoEstoqueDb = await DbSet.Where(l => l.Id == idLancamentoEstoque).FirstAsync();
-            var primeiroDiaDoMes = new DateTime(lancamentoEstoqueDb.DataLancamento.Year, lancamentoEstoqueDb.DataLancamento.Month, 1);
-            var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
             var estoque = await Db.Estoques
-                .Where(e => e.Id == lancamentoEstoqueDb.EstoqueId && 
-                            e.MesEstoque >= primeiroDiaDoMes && e.MesEstoque  <= ultimoDiaDoMes)
+                .Where(e => e.Id == lancamentoEstoqueDb.EstoqueId)
                 .FirstAsync();
             estoque.SaldoEstoque -= lancamentoEstoqueDb.Quantidade;
             Db.Estoques.Update(estoque);
