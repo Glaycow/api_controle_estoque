@@ -8,7 +8,7 @@ namespace ControleEstoque.Infra.Repositorio.Estoque;
 
 public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityDataService<Dominio.Classes.Estoque>(dbContext), IEstoqueRepositorio, IEstoqueGerenciamentoRepositorio
 {
-    public async Task<List<EstoqueViewModelResults>> BuscarListaEstoqueProdutoAsync(Guid produtoId)
+    public async Task<EstoqueViewModelResults?> BuscarListaEstoqueProdutoAsync(Guid produtoId)
     {
         var estoques = await DbSet
             .AsNoTracking()
@@ -19,7 +19,7 @@ public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityData
                 SaldoEstoque = estoque.SaldoEstoque
             })
             .Where(e => e.ProdutoId == produtoId)
-            .ToListAsync();
+            .FirstOrDefaultAsync();
 
         return estoques;
     }

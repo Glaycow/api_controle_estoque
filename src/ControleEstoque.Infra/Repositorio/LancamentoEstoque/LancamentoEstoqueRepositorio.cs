@@ -57,15 +57,17 @@ public class LancamentoEstoqueRepositorio(ControleEstoqueDbContext dbContext, IP
         await using var transaction = await Db.Database.BeginTransactionAsync();
         try
         {
-            var estoque = await Db.Estoques.FirstAsync(e => e.ProdutoId == lancamentoEstoque.ProdutoId);
+            var estoque = await Db.Estoques.Where(e => e.ProdutoId == lancamentoEstoque.ProdutoId).FirstAsync();
+            var produto = await _produtoRepositorio.BuscarProdutoPorIdAsync(lancamentoEstoque.ProdutoId);
+            lancamentoEstoque.Quantidade = (produto.TipoQuantidade.Quantidade * lancamentoEstoque.Quantidade);
             estoque.SaldoEstoque += lancamentoEstoque.Quantidade;
-            lancamentoEstoque.EstoqueId = lancamentoEstoque.Id;
+            lancamentoEstoque.EstoqueId = estoque.Id;
             await DbSet.AddAsync(lancamentoEstoque);
             Db.Estoques.Update(estoque);
             await Db.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             await transaction.RollbackAsync();
             throw new BadRequestException(MensagensValidacao.ErrorLancamentoEstoque);

@@ -27,7 +27,7 @@ public class EstoqueController(
 
     [HttpGet]
     [EndpointGroupName("Estoque")]
-    [ProducesResponseType(typeof(List<EstoqueViewModelResults>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(EstoqueViewModelResults), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get([FromQuery] EstoqueQueryViewModel query)
