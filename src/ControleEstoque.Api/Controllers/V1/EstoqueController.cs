@@ -20,7 +20,6 @@ public class EstoqueController(
     ILancamentoEstoqueRepositorio lancamentoEstoqueRepositorio)
     : MainController
 {
-    private readonly IEstoqueServico _estoqueServico = estoqueServico;
     private readonly IEstoqueRepositorio _estoqueRepositorio = estoqueRepositorio;
     private readonly ILancamentoEstoqueServico _lancamentoEstoqueServico = lancamentoEstoqueServico;
     private readonly ILancamentoEstoqueRepositorio _lancamentoEstoqueRepositorio = lancamentoEstoqueRepositorio;
@@ -38,6 +37,22 @@ public class EstoqueController(
         }
 
         var estoques = await _estoqueRepositorio.BuscarListaEstoqueProdutoAsync(query.ProdutoId);
+        return Ok(estoques);
+    }
+    
+    [HttpGet("dashboard")]
+    [EndpointGroupName("Estoque")]
+    [ProducesResponseType(typeof(DashboardMes), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get()
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GerarErrosValidacao(ModelState));
+        }
+
+        var estoques = await _estoqueRepositorio.BuscarInfoDashboardAsync();
         return Ok(estoques);
     }
     

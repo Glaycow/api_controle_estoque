@@ -1,4 +1,5 @@
-﻿using ControleEstoque.Dominio.Interfaces.Estoque;
+﻿using ControleEstoque.Dominio.Enum;
+using ControleEstoque.Dominio.Interfaces.Estoque;
 using ControleEstoque.Dominio.ViewModelResults.Estoque;
 using ControleEstoque.Infra.DbContexts;
 using ControleEstoque.Infra.EFCore;
@@ -37,6 +38,31 @@ public class EstoqueRepositorio(ControleEstoqueDbContext dbContext) : EntityData
             .FirstAsync(e => e.Id == estoqueId);
         
         return estoque;
+    }
+
+    public async Task<DashboardMes> BuscarInfoDashboardAsync()
+    {
+        var dashboardMes = new DashboardMes();
+        var data = DateTime.Now;
+        var primeiroDiaDoMes = new DateTime(data.Year, data.Month, 1);
+        var ultimoDiaDoMes = primeiroDiaDoMes.AddMonths(1).AddDays(-1);
+        var dashboard = await Db.LancamentoEstoques
+            .AsNoTracking()
+            .Where(e => e.DataLancamento >= primeiroDiaDoMes && e.DataLancamento <= ultimoDiaDoMes)
+            .ToListAsync();
+        foreach (var lancamentoEstoque in dashboard)
+        {
+            switch (lancamentoEstoque.TipoCadastro)
+            {
+                case TipoLancamento.Entrada:
+                    dashboardMes.ValorEntrada += lancamentoEstoque.Valor;
+                    break;
+                case TipoLancamento.Saida:
+                    dashboardMes.ValorSaida += lancamentoEstoque.Valor;
+                    break;
+            }
+        }
+        return dashboardMes;
     }
 
     public Task<bool> ValidarEstoqueMesAsync(Guid idProduto)
